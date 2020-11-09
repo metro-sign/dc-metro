@@ -1,0 +1,5 @@
+.DS_Store
+.vscode
+
+lib/**/*
+boot_out.txt
