@@ -31,7 +31,7 @@ config = {
 	#########################
 	'metro_api_url': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
 	'metro_api_retries': 3,
-	'refresh_interval': 5,
+	'refresh_interval': 5, # 5 seconds is a good middle ground for updates, as the processor takes its sweet ol time
 
 	# Display Settings
 	'matrix_width': 64,
@@ -55,7 +55,4 @@ config = {
 
 	'min_label_characters': 3,
 	'destination_max_characters': 8,
-
-	# Refresh Settings
-	'refresh_interval': 10, # 10 seconds is a good middle ground for updates
 }
