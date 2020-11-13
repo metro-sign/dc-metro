@@ -1,3 +1,5 @@
+Forked from [metro-sign](https://github.com/metro-sign/dc-metro) to allow multiple stations and implement a "walking distance" modifier to ignore trains you cannot get to in time.
+
 # Washington DC Metro Train Sign
 This project contains the source code to create your own Washington DC Metro sign. It was written using CircuitPython targeting the [Adafruit Matrix Portal](https://www.adafruit.com/product/4745) and is optimized for 64x32 RGB LED matrices.
 
