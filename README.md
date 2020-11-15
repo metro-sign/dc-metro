@@ -11,7 +11,7 @@ This project contains the source code to create your own Washington DC Metro sig
     - [64x32 RGB LED Matrix - 4mm pitch](https://www.adafruit.com/product/2278)
     - [64x32 RGB LED Matrix - 5mm pitch](https://www.adafruit.com/product/2277)
     - [64x32 RGB LED Matrix - 6mm pitch](https://www.adafruit.com/product/2276)
-- A **USB-C power supply** (15w phone adapters should work fine)
+- A **USB-C power supply** (15w phone adapters should work fine for this code, but the panels can theoretically pull 20w if every pixel is on white)
 - A **USB-C cable** that can connect your computer/power supply to the board
 
 ## Tools
