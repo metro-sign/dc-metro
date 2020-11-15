@@ -81,7 +81,7 @@ This project contains the source code to create your own Washington DC Metro sig
 2. Fill in your WiFi SSID and password under the **Network Configuration** section.
 3. Under the **Metro Configuration** section:
     1. Select your station and lines from the [Metro Station Codes table](#dc-metro-station-codes), and set the _metro_station_code_ value to the corresponding value in the table.
-    2. For _train_group_, the value needs to be either **'1'** or **'2'**. This determines which platform's arrival times will be displayed. This value isn't well documented by WMATA, so your best bet is to try one value, and if it's the wrong direction, use the other value.
+    2. For _train_group_, the value needs to be either **'1'** or **'2'** or  **'3'**. This determines which platform's arrival times will be displayed. These typically fall in line with the values provided in the [Train Group table](#train-group-explanations), although single tracking and other events can cause these to change.
     3. Set the _metro_api_key_ value to the API key you got from [Part 3](#part-3-getting-a-wmata-api-key).
 4. At the end, the first part of your configuration file should look similar this:
 
@@ -214,3 +214,26 @@ If something goes wrong, take a peek at the [Adafruit Documentation](https://lea
 | White Flint                                      | RD         | A12  |
 | Wiehle-Reston East                               | SV         | N06  |
 | Woodley Park-Zoo/Adams Morgan                    | RD         | A04  |
+
+## DC Metro Silver Line Phase II Stations
+A special thanks to [u/SandBoxJohn](https://www.reddit.com/user/SandBoxJohn) for these.
+| Name                                             | Lines      | Code |
+|--------------------------------------------------|------------|------|
+| Reston Town Center                               | SV         | N07  |
+| Herndon                                          | SV         | N08  |
+| Innovation Center                                | SV         | N09  |
+| Dulles Airport                                   | SV         | N10  |
+| Loudoun Gateway                                  | SV         | N11  |
+| Ashburn                                          | SV         | N12  |
+
+## Train Group Explanations
+A special thanks to [u/SandBoxJohn](https://www.reddit.com/user/SandBoxJohn) for these.
+| Line       | Train Group | Destination                                            |
+|------------|-------------|--------------------------------------------------------|
+| RD         | "1"         | Glenmont                                               |
+| RD         | "2"         | Shady Grove                                            |
+| BL, OR, SV | "1"         | New Carrollton, Largo Town Center                      |
+| BL, OR, SV | "2"         | Vienna, Franconia-Springfield, Wiehle-Reston East      |
+| GR, YL     | "1"         | Greenbelt                                              |
+| GR, YL     | "2"         | Huntington, Branch Avenue                              |
+| N/A        | "3"         | Center Platform at National Airport, West Falls Church |
