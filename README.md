@@ -58,6 +58,8 @@ This project contains the source code to create your own Washington DC Metro sig
 
 3. Decompress the _lib.zip_ file from this repository into the root of the _CIRCUITPY_ volume. There should be one folder named _lib_, with a plethora of files underneath. You can delete _lib.zip_ from the _CIRCUITPY_ volume, as it's no longer needed.
 
+    - It has been reported that this step may fail (#2), most likely due to the storage on the Matrix Portal not being able to handle the decompression. If this happens, unzip the _lib.zip_ file on your computer, and copy the _lib_ folder to the Matrix Portal. Command line tools could also be used if the above doesn't work.
+
     ![Lib Decompressed](img/lib.png)
 
 4. Copy all of the Python files from _src_ in this repository into the root of the _CIRCUITPY_ volume.
