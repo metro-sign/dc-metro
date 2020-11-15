@@ -56,7 +56,7 @@ class MetroApi:
         else:
             return int(arr)
 
-    def _normalize_train_response(train: dict) -> dict:
+    def _normalize_train_response(train: dict, buff:int) -> dict:
         line = train['Line']
         destination = train['Destination']
         group = train['Group']
@@ -65,7 +65,7 @@ class MetroApi:
 
         #Adjust for time to wait for the REST API
         if arrival.isdigit():
-            arrival = int(arrival) - TIME_BUFFER
+            arrival = int(arrival) - buff
             if arrival <= 0: 
                 arrival = 'ARR'
             else:
