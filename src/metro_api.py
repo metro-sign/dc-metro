@@ -18,7 +18,6 @@ class MetroApi:
 
     def _fetch_train_predictions(station_codes, groups, walks, retry_attempt: int) -> [dict]:
         try:
-            TIME_BUFFER = 0
             start = time.time()
             print('Fetching...')
             api_url = config['metro_api_url'] + ','.join(station_codes)
@@ -26,6 +25,7 @@ class MetroApi:
                 'api_key': config['metro_api_key']
             }).json()
             print('Received response from WMATA api...')
+            TIME_BUFFER = round((time.time() - start)/60) + 1
          
             trains = list(map(MetroApi._normalize_train_response, train_data['Trains']))
             print(trains)
@@ -37,7 +37,6 @@ class MetroApi:
             
             if len(station_codes) > 1:
                 trains = sorted(trains, key=lambda t: MetroApi.arrival_map(t['arrival']))
-            TIME_BUFFER = round((time.time() - start)/60) + 1
             print('Time to Update: ' + str(time.time() - start))
             return trains
 
