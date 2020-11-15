@@ -25,9 +25,9 @@ class MetroApi:
                 'api_key': config['metro_api_key']
             }).json()
             print('Received response from WMATA api...')
-            TIME_BUFFER = round((time.time() - start)/60) + 1
+            TIME_BUFFER = round((time.time() - start)/60)
          
-            trains = list(map(MetroApi._normalize_train_response, train_data['Trains']))
+            trains = [MetroApi._normalize_train_response(t, TIME_BUFFER) for t in train_data['Trains']]
             print(trains)
 
             if walks == {}:
