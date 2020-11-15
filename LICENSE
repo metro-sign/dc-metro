@@ -1,6 +1,6 @@
 Excluding the files in lib.zip, this project is licensed under:
 
-MIT License
+Modified MIT License
 
 Copyright (c) 2020 metro-sign
 
@@ -13,6 +13,9 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+The software shall not to be used, modified, or distributed for any commercial
+or monetary purposes, including charging for installation.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
