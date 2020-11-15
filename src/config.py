@@ -6,23 +6,27 @@ config = {
 	#########################
 
 	# WIFI Network SSID
-	'wifi_ssid': '<Your 2.4ghz WiFi SSID>',
+	'wifi_ssid': '<wifi name>',
 
 	# WIFI Password
-	'wifi_password': '<Your WiFi Password>',
+	'wifi_password': '<wifi password>',
 
 	#########################
 	# Metro Configuration   #
 	#########################
 
-	# Metro Station Code
-	'metro_station_code': 'D02',
+	# Metro Station Codes as a list of strings
+	'metro_station_code': ['D05','F05'],
 
-	# Metro Train Group
-	'train_group': '2',
+	# Metro Train Group as list of strings
+	'train_group': ['2','1'],
+
+	#Walking Distance Times, ignore trains arriving in less than this time
+	# as list of ints
+	'walking_time': [2, 12],
 
 	# API Key for WMATA
-	'metro_api_key': '<Your WMATA API Key>',
+	'metro_api_key': '<api key>',
 
 	#########################
 	# Other Values You      #
@@ -38,9 +42,9 @@ config = {
 	'num_trains': 3,
 	'font': bitmap_font.load_font('lib/5x7.bdf'),
 
-	'character_width': 5,
-	'character_height': 7,
-	'text_padding': 1,
+	'character_width': 5, #5
+	'character_height': 6, #7
+	'text_padding': 2, #1
 	'text_color': 0xFF7500,
 
 	'loading_destination_text': 'Loading',
@@ -50,8 +54,8 @@ config = {
 	'heading_text': 'LN DEST   MIN',
 	'heading_color': 0xFF0000,
 
-	'train_line_height': 6,
-	'train_line_width': 2,
+	'train_line_height': 6, #6
+	'train_line_width': 4,
 
 	'min_label_characters': 3,
 	'destination_max_characters': 8,

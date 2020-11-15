@@ -5,7 +5,6 @@ from adafruit_matrixportal.matrix import Matrix
 
 from config import config
 
-
 class TrainBoard:
 	"""
 		get_new_data is a function that is expected to return an array of dictionaries like this:
@@ -20,9 +19,7 @@ class TrainBoard:
 	"""
 	def __init__(self, get_new_data):
 		self.get_new_data = get_new_data
-		
 		self.display = Matrix().display
-
 		self.parent_group = displayio.Group(max_size=5)
 
 		self.heading_label = Label(config['font'], max_glyphs=len(config['heading_text']), anchor_point=(0,0))
@@ -39,7 +36,6 @@ class TrainBoard:
 	def refresh(self) -> bool:
 		print('Refreshing train information...')
 		train_data = self.get_new_data()
-		
 		if train_data is not None:
 			print('Reply received.')
 			for i in range(config['num_trains']):
@@ -48,14 +44,13 @@ class TrainBoard:
 					self._update_train(i, train['line_color'], train['destination'], train['arrival'])
 				else:
 					self._hide_train(i)
-			
 			print('Successfully updated.')
 		else:
 			print('No data received. Clearing display.')
 
 			for i in range(config['num_trains']):
 				self._hide_train(i)
-
+	
 	def _hide_train(self, index: int):
 		self.trains[index].hide()
 
@@ -69,7 +64,7 @@ class Train:
 		self.line_rect = Rect(0, y, config['train_line_width'], config['train_line_height'], fill=config['loading_line_color'])
 		
 		self.destination_label = Label(config['font'], max_glyphs=config['destination_max_characters'], anchor_point=(0,0))
-		self.destination_label.x =  config['train_line_width'] + 2
+		self.destination_label.x =  config['train_line_width'] + 1
 		self.destination_label.y = y
 		self.destination_label.color = config['text_color']
 		self.destination_label.text = config['loading_destination_text'][:config['destination_max_characters']]
