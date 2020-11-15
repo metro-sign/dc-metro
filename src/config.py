@@ -30,7 +30,7 @@ config = {
 	# Touch                 #
 	#########################
 	'metro_api_url': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
-	'metro_api_retries': 3,
+	'metro_api_retries': 2,
 	'refresh_interval': 5, # 5 seconds is a good middle ground for updates, as the processor takes its sweet ol time
 
 	# Display Settings
