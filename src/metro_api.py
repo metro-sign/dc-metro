@@ -7,7 +7,6 @@ from secrets import secrets
 
 # Keeping a global reference for this
 _network = Network(status_neopixel=board.NEOPIXEL)
-TIME_BUFFER = 0
 
 class MetroApiOnFireException(Exception):
     pass
@@ -20,23 +19,24 @@ class MetroApi:
         try:
             start = time.time()
             print('Fetching...')
-            api_url = config['metro_api_url'] + ','.join(station_codes)
+            api_url = config['metro_api_url'] + ','.join(set(station_codes))
             train_data = _network.fetch(api_url, headers={
                 'api_key': config['metro_api_key']
             }).json()
             print('Received response from WMATA api...')
-            TIME_BUFFER = round((time.time() - start)/60)
+            TIME_BUFFER = round((time.time() - start)/60) + 1
          
             trains = [MetroApi._normalize_train_response(t, TIME_BUFFER) for t in train_data['Trains']]
             print(trains)
-
+            print('Filtering Results')
             if walks == {}:
-                trains = list(filter(lambda t: t['group'] == groups[t['loc']], trains))
+                trains = list(filter(lambda t: (t['loc'], t['group']) in groups, trains))
             else:
-                trains = list(filter(lambda t: (t['group'] == groups[t['loc']] and MetroApi.arrival_map(t['arrival'])-walks[t['loc']] >= 0), trains))
+                trains = list(filter(lambda t: ((t['loc'], t['group']) in groups and MetroApi.arrival_map(t['arrival'])-walks[t['loc']] >= 0), trains))
             
-            if len(station_codes) > 1:
+            if len(groups) > 1:
                 trains = sorted(trains, key=lambda t: MetroApi.arrival_map(t['arrival']))
+            print(trains)
             print('Time to Update: ' + str(time.time() - start))
             return trains
 

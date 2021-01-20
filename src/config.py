@@ -15,18 +15,18 @@ config = {
 	# Metro Configuration   #
 	#########################
 
-	# Metro Station Codes as a list of strings
-	'metro_station_code': ['D05','F05'],
+	# API Key for WMATA
+	'metro_api_key': '<api key>',
 
-	# Metro Train Group as list of strings
+	# Metro Station Codes as a list of strings, number of station codes must match number of train groups
+	'metro_station_code': ['D05','D05'],
+
+	# Metro Train Group as list of strings, number of station codes must match number of train groups
 	'train_group': ['2','1'],
 
 	#Walking Distance Times, ignore trains arriving in less than this time
-	# as list of ints
-	'walking_time': [2, 12],
-
-	# API Key for WMATA
-	'metro_api_key': '<api key>',
+	# as list of ints. 
+	'walking_time': [0, 0],
 
 	#########################
 	# Other Values You      #
