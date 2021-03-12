@@ -6,34 +6,41 @@ config = {
 	#########################
 
 	# WIFI Network SSID
-	'wifi_ssid': '<wifi name>',
+	'wifi_ssid': '',
 
 	# WIFI Password
-	'wifi_password': '<wifi password>',
+	'wifi_password': '',
 
 	#########################
 	# Metro Configuration   #
 	#########################
+	# WMATA API KEY
+	'source_api': 'WMATA', # WMATA or MetroHero. MetroHero currently doesn't work, so do not use.
+	'metro_api_key1': '',
 
-	# API Key for WMATA
-	'metro_api_key': '<api key>',
+	# Metro Station Code
+	#Cap South, Navy Yard
+	'metro_station_code': ['D05','F05'],
 
-	# Metro Station Codes as a list of strings, number of station codes must match number of train groups
-	'metro_station_code': ['D05','D05'],
-
-	# Metro Train Group as list of strings, number of station codes must match number of train groups
+	# Metro Train Group
 	'train_group': ['2','1'],
 
 	#Walking Distance Times, ignore trains arriving in less than this time
-	# as list of ints. 
-	'walking_time': [0, 0],
+	# [2, 12]
+	'walking_time': [2, 12],
 
 	#########################
 	# Other Values You      #
 	# Probably Shouldn't    #
 	# Touch                 #
 	#########################
-	'metro_api_url': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
+		# WMATA API
+	'metro_api_url1': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
+
+	# # MetroHero API - Not Current Working with the code. No need to fill or use
+	'metro_api_url2': 'https://dcmetrohero.com/api/v1/metrorail/stations/[stationCode]/trains',
+	'metro_api_key2': '',
+	
 	'metro_api_retries': 3,
 	'refresh_interval': 5, # 5 seconds is a good middle ground for updates, as the processor takes its sweet ol time
 
