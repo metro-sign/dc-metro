@@ -8,10 +8,13 @@ class MetroApiOnFireException(Exception):
     pass
 
 class MetroApi:
-    def fetch_train_predictions(wifi, station_codes, groups, walks={}) -> [dict]:
-        return MetroApi._fetch_train_predictions(wifi, station_codes, groups, walks, retry_attempt=0)
+    def __init__(self):
+        pass
 
-    def _fetch_train_predictions(wifi, station_codes, groups, walks, retry_attempt: int) -> [dict]:
+    def fetch_train_predictions(self, wifi, station_codes, groups, walks={}) -> [dict]:
+        return self._fetch_train_predictions(wifi, station_codes, groups, walks, retry_attempt=0)
+
+    def _fetch_train_predictions(self, wifi, station_codes, groups, walks, retry_attempt: int) -> [dict]:
         try:
             print('Fetching...')
             start = time.time()
@@ -19,39 +22,41 @@ class MetroApi:
             if config['source_api'] == 'WMATA':
                 # WMATA Method
                 api_url = config['metro_api_url1'] + ','.join(set(station_codes))
-                response = wifi.get(api_url, headers={'api_key': config['metro_api_key1']}, timeout=30).json()
-                trains = list(filter(lambda t: (t['LocationCode'], t['Group']) in groups, response['Trains']))
+                response = wifi.get(api_url, headers={'api_key': config['metro_api_key1']}, timeout=1)
+                trains = list(filter(lambda t: (t['LocationCode'], t['Group']) in groups, response.json()['Trains']))
             else:
                 #Metro Hero Method
                 trains = []
                 for station in set(station_codes): # select trains in desired direction
                     api_url = config['metro_api_url2'].replace('[stationCode]', station)
-                    response = wifi.get(api_url, headers={'apiKey': config['metro_api_key2']}, data={'includeScheduledPredictions':True}, timeout = 60).json()
+                    response = wifi.get(api_url, headers={'apiKey': config['metro_api_key2']}, data={'includeScheduledPredictions':True}, timeout = 30).json()
                     trains.extend(list(filter(lambda t: (station, t['Group']) in groups, response)))
 
             print('Received response from ' + config['source_api'] + ' api...')
             TIME_BUFFER = round((time.time() - start)/60) + 1
-            trains = [MetroApi._normalize_train_response(t, TIME_BUFFER) for t in trains]
+            trains = [self._normalize_train_response(t, TIME_BUFFER) for t in trains]
 
             if walks != {}:
-                trains = list(filter(lambda t: MetroApi.arrival_map(t['arrival'])-walks[t['loc']] >= 0, trains))
+                trains = list(filter(lambda t: self.arrival_map(t['arrival'])-walks[t['loc']] >= 0, trains))
 
             if len(groups) > 1:
-                trains = sorted(trains, key=lambda t: MetroApi.arrival_map(t['arrival']))
+                trains = sorted(trains, key=lambda t: self.arrival_map(t['arrival']))
 
             print(trains)
             print('Time to Update: ' + str(time.time() - start))
+            response.close()
             return trains
 
-        except:
+        except Exception as e:
+            print(e)
             if retry_attempt < config['metro_api_retries']:
                 print('Failed to connect to API. Reattempting...')
                 # Recursion for retry logic because I don't care about your stack
-                return MetroApi._fetch_train_predictions(wifi, station_codes, groups, walks, retry_attempt + 1)
+                return self._fetch_train_predictions(wifi, station_codes, groups, walks, retry_attempt + 1)
             else:
                 raise MetroApiOnFireException()
 
-    def arrival_map(arr):
+    def arrival_map(self, arr):
         if arr == 'BRD':
             return 0
         elif arr == 'ARR':
@@ -61,7 +66,7 @@ class MetroApi:
         else:
             return int(arr)
 
-    def _normalize_train_response(train: dict, buff:int) -> dict:
+    def _normalize_train_response(self, train: dict, buff:int) -> dict:
         line = train['Line']
         destination = train['Destination']
         loc = train['LocationCode']
@@ -83,13 +88,13 @@ class MetroApi:
             destination = 'No Psngr'
 
         return {
-            'line_color': MetroApi._get_line_color(line),
-            'destination': destination,
+            'line_color': self._get_line_color(line),
+            'destination': destination[:config['destination_max_characters']],
             'arrival': arrival,
             'loc': loc
         }
 
-    def _get_line_color(line: str) -> int:
+    def _get_line_color(self, line: str) -> int:
         if line == 'RD':
             return 0xFF0000
         elif line == 'OR':
