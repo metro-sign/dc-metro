@@ -20,9 +20,9 @@ class TrainBoard:
 	def __init__(self, get_new_data):
 		self.get_new_data = get_new_data
 		self.display = Matrix().display
-		self.parent_group = displayio.Group(max_size=5)
+		self.parent_group = displayio.Group(scale=1, x=0, y=3)
 
-		self.heading_label = Label(config['font'], max_glyphs=len(config['heading_text']), anchor_point=(0,0))
+		self.heading_label = Label(config['font'], anchor_point=(0,0))
 		self.heading_label.color = config['heading_color']
 		self.heading_label.text=config['heading_text']
 		self.parent_group.append(self.heading_label)
@@ -61,21 +61,21 @@ class Train:
 	def __init__(self, parent_group, index):
 		y = (int)(config['character_height'] + config['text_padding']) * (index + 1)
 
-		self.line_rect = Rect(0, y, config['train_line_width'], config['train_line_height'], fill=config['loading_line_color'])
+		self.line_rect = Rect(0, y-3, config['train_line_width'], config['train_line_height'], fill=config['loading_line_color'])
 		
-		self.destination_label = Label(config['font'], max_glyphs=config['destination_max_characters'], anchor_point=(0,0))
+		self.destination_label = Label(config['font'], anchor_point=(0,0))
 		self.destination_label.x =  config['train_line_width'] + 1
 		self.destination_label.y = y
 		self.destination_label.color = config['text_color']
 		self.destination_label.text = config['loading_destination_text'][:config['destination_max_characters']]
 
-		self.min_label = Label(config['font'], max_glyphs=config['min_label_characters'], anchor_point=(0,0))
+		self.min_label = Label(config['font'], anchor_point=(0,0))
 		self.min_label.x = config['matrix_width'] - (config['min_label_characters'] * config['character_width']) + 1
 		self.min_label.y = y
 		self.min_label.color = config['text_color']
 		self.min_label.text = config['loading_min_text']
 
-		self.group = displayio.Group(max_size=3)
+		self.group = displayio.Group(scale=1, x=0, y=0)
 		self.group.append(self.line_rect)
 		self.group.append(self.destination_label)
 		self.group.append(self.min_label)
