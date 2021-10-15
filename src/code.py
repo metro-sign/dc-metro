@@ -1,4 +1,3 @@
-# DC Metro Board
 import time
 from config import config
 from train_board import TrainBoard
@@ -30,11 +29,13 @@ if max(WALKING_TIMES) == 0:
 else:
 	WALKING_TIMES = dict(zip(STATION_CODES, WALKING_TIMES))
 
+api = MetroApi()
+
 def refresh_trains() -> [dict]:
 	try:
-		trains = MetroApi.fetch_train_predictions(wifi, STATION_CODES, TRAIN_GROUPS, WALKING_TIMES)
+		trains = api.fetch_train_predictions(wifi, STATION_CODES, TRAIN_GROUPS, WALKING_TIMES)
 	except MetroApiOnFireException:
-		print('WMATA API might be on fire. Resetting wifi ...')
+		print(config['source_api'] + ' API might be on fire. Resetting wifi ...')
 		wifi.reset()
 		return None
 	return trains
