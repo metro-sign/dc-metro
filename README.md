@@ -1,7 +1,3 @@
-Forked from metro-sign to allow multiple stations and implement a "walking distance" modifier to ignore trains you cannot get to in time. Requires CircuitPython 7. Follow below instructions but replace CircuitPython version 6 with version 7. Libraries must also be replaced with version 7 libraries, included in my lib.zip.
-
-Additionally, includes support for Metro Hero API, which is arguably more accurate, and includes trains that are farther away. Also added support for off hours so the display turns off automatically on a schedule.
-
 # Washington DC Metro Train Sign
 This project contains the source code to create your own Washington DC Metro sign. It was written using CircuitPython targeting the [Adafruit Matrix Portal](https://www.adafruit.com/product/4745) and is optimized for 64x32 RGB LED matrices.
 
