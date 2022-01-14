@@ -30,13 +30,13 @@ TIME_URL += "&fmt=%25Y-%25m-%25d+%25H%3A%25M%3A%25S.%25L+%25j+%25u+%25z+%25Z"
 OFF_HOURS_ENABLED = aio_username and aio_key and config.get("display_on_time") and config.get("display_on_time")
 
 REFRESH_INTERVAL = config['refresh_interval']
-STATION_CODES = config['metro_station_code']
-TRAIN_GROUPS = list(zip(STATION_CODES, config['train_group']))
-WALKING_TIMES = config['walking_time']
-if max(WALKING_TIMES) == 0:
-    WALKING_TIMES = {}
+STATION_CODES = config['metro_station_codes']
+train_groupsS = list(zip(STATION_CODES, config['train_groups']))
+walking_timesS = config['walking_times']
+if max(walking_timesS) == 0:
+    walking_timesS = {}
 else:
-    WALKING_TIMES = dict(zip(STATION_CODES, WALKING_TIMES))
+    walking_timesS = dict(zip(STATION_CODES, walking_timesS))
 
 def is_off_hours() -> bool:
     now = wifi.get(TIME_URL).text
@@ -52,7 +52,7 @@ def is_off_hours() -> bool:
 
 def refresh_trains() -> [dict]:
     try:
-         trains = api.fetch_train_predictions(wifi, STATION_CODES, TRAIN_GROUPS, WALKING_TIMES)
+         trains = api.fetch_train_predictions(wifi, STATION_CODES, train_groupsS, walking_timesS)
     except MetroApiOnFireException:
         print(config['source_api'] + ' API might be on fire. Resetting wifi ...')
         wifi.reset()

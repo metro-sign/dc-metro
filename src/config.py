@@ -14,32 +14,27 @@ config = {
 	#########################
 	# Metro Configuration   #
 	#########################
-	# WMATA API KEY
 	'source_api': 'WMATA', # WMATA or MetroHero.
-	'metro_api_key1': '',
-	'metro_api_key2': '',
+
+	# WMATA / MetroHero API Key
+	'wmata_api_key': '',
+	'metro_hero_api_key': '',
 
 	# Metro Station Code
-	#Cap South, Navy Yard
-	'metro_station_code': ['E03','C02'],
+	'metro_station_codes': ['E03','C02'],
 
 	# Metro Train Group
-	'train_group': ['2','2'],
+	'train_groups': ['2','2'],
 
 	#Walking Distance Times, ignore trains arriving in less than this time
 	# [2, 12]
-	'walking_time': [8, 8],
+	'walking_times': [8, 8],
 
-	#########################
-	# Other Values You      #
-	# Probably Shouldn't    #
-	# Touch                 #
-	#########################
 	# WMATA API
-	'metro_api_url1': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
+	'wmata_api_url': 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/',
 
-	# # MetroHero API - Not Current Working with the code. No need to fill or use
-	'metro_api_url2': 'https://dcmetrohero.com/api/v1/metrorail/stations/[stationCode]/trains?includeScheduledPredictions=True',
+	# # MetroHero API
+	'metro_hero_api_url': 'https://dcmetrohero.com/api/v1/metrorail/stations/[stationCode]/trains?includeScheduledPredictions=True',
 
 	'metro_api_retries': 3,
 	'refresh_interval': 5, # 5 seconds is a good middle ground for updates, as the processor takes its sweet ol time
@@ -62,9 +57,24 @@ config = {
 
         },
 
-        #########################
-        # Display Configuration #
-        #########################
+    #############################
+    # Off Hours Configuration   #
+    #############################
+
+    # adafruit io settings, necessary for determining current time to sleep
+    # An account is free to set up, instructions below
+    # https://learn.adafruit.com/adafruit-magtag/getting-the-date-time
+    'aio_username': '',
+    'aio_key': '',
+
+    # Time of day to turn board on and off - must be 24 hour "HH:MM"
+    'display_on_time': "07:00",
+    'display_off_time': "22:00",
+
+
+    #########################
+    # Display Configuration #
+    #########################
 	'matrix_width': 64,
 	'num_trains': 3,
 	'font': bitmap_font.load_font('lib/5x7.bdf'),
@@ -87,18 +97,4 @@ config = {
 	'min_label_characters': 3,
 	'destination_max_characters': 8,
 
-
-        #############################
-        # Off Hours Configuration   #
-        #############################
-        # adafruit io settings, necessary for determining current time to sleep
-        # An account is free to set up, instructions below
-        # https://learn.adafruit.com/adafruit-magtag/getting-the-date-time
-        'aio_username': '',
-        'aio_key': '',
-        'timezone': 'America/New_York', # http://worldtimeapi.org/timezones
-
-        # Time of day to turn board on and off - must be 24 hour "HH:MM"
-        'display_on_time': "07:00",
-        'display_off_time': "22:00",
 }
