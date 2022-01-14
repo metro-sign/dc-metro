@@ -21,15 +21,15 @@ class MetroApi:
 
             if config['source_api'] == 'WMATA':
                 # WMATA Method
-                api_url = config['metro_api_url1'] + ','.join(set(station_codes))
-                response = wifi.get(api_url, headers={'api_key': config['metro_api_key1']}, timeout=1).json()
+                api_url = config['wmata_api_url'] + ','.join(set(station_codes))
+                response = wifi.get(api_url, headers={'api_key': config['wmata_api_key']}, timeout=1).json()
                 trains = list(filter(lambda t: (t['LocationCode'], t['Group']) in groups, response['Trains']))
             else:
                 #Metro Hero Method
                 trains = []
                 for station in set(station_codes): # select trains in desired direction
-                    api_url = config['metro_api_url2'].replace('[stationCode]', station)
-                    response = wifi.get(api_url, headers={'apiKey': config['metro_api_key2']}, timeout = 30).json()
+                    api_url = config['metro_hero_api_url'].replace('[stationCode]', station)
+                    response = wifi.get(api_url, headers={'apiKey': config['metro_hero_api_key']}, timeout = 30).json()
                     # MetroHero returns a lot of results, truncate to save memory
                     if len(response) > 5:
                         response = response[:5]

@@ -10,5 +10,5 @@ secrets = {
 	'password': config['wifi_password'],
         'aio_username': config.get('aio_username'],
         'aio_key': config.get('aio_key'),
-        'timezone': config.get('timezone'),
+        'timezone': 'America/New_York',,
 }
