@@ -45,7 +45,7 @@ def is_off_hours() -> bool:
     after_end = now_hour > OFF_HOUR or (now_hour == OFF_HOUR and now_minute > OFF_MINUTE)
     before_start = now_hour < ON_HOUR or (now_hour == ON_HOUR and now_minute < ON_MINUTE)
 
-    if ON_HOUR < OFF_HOUR:
+    if ON_HOUR < OFF_HOUR or (ON_HOUR == OFF_HOUR and ON_MINUTE < OFF_MINUTE):
         return after_end or before_start
     else:
         return after_end and before_start
@@ -66,7 +66,7 @@ if OFF_HOURS_ENABLED:
     OFF_HOUR, OFF_MINUTE = map(int, config['display_off_time'].split(":"))
     while is_off_hours():
         train_board.display.brightness = 0
-        time.sleep(60)
+        time.sleep(config['refresh_interval'])
 
 api = MetroApi()
 
@@ -76,6 +76,7 @@ while True:
     if OFF_HOURS_ENABLED:
         while is_off_hours():
             train_board.display.brightness = 0
-            time.sleep(60)
+            time.sleep(config['refresh_interval'])
+	train_board.display.brightness = 1
 
     time.sleep(REFRESH_INTERVAL)
