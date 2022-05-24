@@ -1,4 +1,3 @@
-import board
 import time
 
 from config import config
@@ -45,7 +44,7 @@ class MetroApi:
             if len(groups) > 1:
                 trains = sorted(trains, key=lambda t: self.arrival_map(t['arrival']))
 
-            print(trains)
+            print("Trains returned by api: " + trains)
             print('Time to Update: ' + str(time.time() - start))
             return trains
 

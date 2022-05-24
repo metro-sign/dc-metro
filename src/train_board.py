@@ -57,6 +57,12 @@ class TrainBoard:
 	def _update_train(self, index: int, line_color: int, destination: str, minutes: str):
 		self.trains[index].update(line_color, destination, minutes)
 
+	def turn_off_display(self):
+		self.display.brightness = 0
+
+	def turn_on_display(self)
+		self.display.brightness = 1
+
 class Train:
 	def __init__(self, parent_group, index):
 		y = (int)(config['character_height'] + config['text_padding']) * (index + 1)

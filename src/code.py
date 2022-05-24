@@ -15,8 +15,6 @@ from adafruit_esp32spi import adafruit_esp32spi_wifimanager
 esp32_cs = DigitalInOut(board.ESP_CS)
 esp32_ready = DigitalInOut(board.ESP_BUSY)
 esp32_reset = DigitalInOut(board.ESP_RESET)
-spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
-esp = adafruit_esp32spi.ESP_SPIcontrol(spi, esp32_cs, esp32_ready, esp32_reset)
 status_light = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.2)
 wifi = adafruit_esp32spi_wifimanager.ESPSPI_WiFiManager(esp, secrets, status_light)
 
@@ -64,9 +62,6 @@ train_board = TrainBoard(refresh_trains)
 if OFF_HOURS_ENABLED:
     ON_HOUR, ON_MINUTE = map(int, config['display_on_time'].split(":"))
     OFF_HOUR, OFF_MINUTE = map(int, config['display_off_time'].split(":"))
-    while is_off_hours():
-        train_board.display.brightness = 0
-        time.sleep(config['refresh_interval'])
 
 api = MetroApi()
 
@@ -75,8 +70,8 @@ while True:
 
     if OFF_HOURS_ENABLED:
         while is_off_hours():
-            train_board.display.brightness = 0
+	    train_board.turn_off_display()
             time.sleep(config['refresh_interval'])
-	train_board.display.brightness = 1
+	train_board.turn_on_display()
 
     time.sleep(REFRESH_INTERVAL)
