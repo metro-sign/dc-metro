@@ -28,11 +28,10 @@ class MetroApi:
                 trains = []
                 for station in set(station_codes): # select trains in desired direction
                     api_url = config['metro_hero_api_url'].replace('[stationCode]', station)
-                    response = wifi.get(api_url, headers={'apiKey': config['metro_hero_api_key']}, timeout = 30).json()
-                    # MetroHero returns a lot of results, truncate to save memory
-                    if len(response) > 5:
-                        response = response[:5]
-                    trains.extend(list(filter(lambda t: (station, t['Group']) in groups, response)))
+                    response = wifi.get(api_url, headers={'apiKey': config['metro_hero_api_key']}, timeout = 30)
+                    res = response.json()[:5]
+                    response.close()
+                    trains.extend(list(filter(lambda t: (station, t['Group']) in groups, res)))
 
             print('Received response from ' + config['source_api'] + ' api...')
             TIME_BUFFER = round((time.time() - start)/60) + 1
@@ -40,11 +39,14 @@ class MetroApi:
 
             if walks != {}:
                 trains = list(filter(lambda t: self.arrival_map(t['arrival'])-walks[t['loc']] >= 0, trains))
+                irint("a")
 
             if len(groups) > 1:
                 trains = sorted(trains, key=lambda t: self.arrival_map(t['arrival']))
 
-            print("Trains returned by api: " + trains)
+            print("Trains returned by api: ")
+            for train in trains:
+                print(train)
             print('Time to Update: ' + str(time.time() - start))
             return trains
 

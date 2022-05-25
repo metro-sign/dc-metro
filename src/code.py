@@ -15,6 +15,8 @@ from adafruit_esp32spi import adafruit_esp32spi_wifimanager
 esp32_cs = DigitalInOut(board.ESP_CS)
 esp32_ready = DigitalInOut(board.ESP_BUSY)
 esp32_reset = DigitalInOut(board.ESP_RESET)
+spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
+esp = adafruit_esp32spi.ESP_SPIcontrol(spi, esp32_cs, esp32_ready, esp32_reset)
 status_light = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=0.2)
 wifi = adafruit_esp32spi_wifimanager.ESPSPI_WiFiManager(esp, secrets, status_light)
 
@@ -29,12 +31,12 @@ OFF_HOURS_ENABLED = aio_username and aio_key and config.get("display_on_time") a
 
 REFRESH_INTERVAL = config['refresh_interval']
 STATION_CODES = config['metro_station_codes']
-train_groupsS = list(zip(STATION_CODES, config['train_groups']))
-walking_timesS = config['walking_times']
-if max(walking_timesS) == 0:
-    walking_timesS = {}
+TRAIN_GROUPS = list(zip(STATION_CODES, config['train_groups']))
+WALKING_TIMES = config['walking_times']
+if max(WALKING_TIMES) == 0:
+    WALKING_TIMES = {}
 else:
-    walking_timesS = dict(zip(STATION_CODES, walking_timesS))
+    WALKING_TIMES = dict(zip(STATION_CODES, WALKING_TIMES))
 
 def is_off_hours() -> bool:
     now = wifi.get(TIME_URL).text
@@ -48,9 +50,11 @@ def is_off_hours() -> bool:
     else:
         return after_end and before_start
 
+api = MetroApi()
+
 def refresh_trains() -> [dict]:
     try:
-         trains = api.fetch_train_predictions(wifi, STATION_CODES, train_groupsS, walking_timesS)
+         trains = api.fetch_train_predictions(wifi, STATION_CODES, TRAIN_GROUPS, WALKING_TIMES)
     except MetroApiOnFireException:
         print(config['source_api'] + ' API might be on fire. Resetting wifi ...')
         wifi.reset()
@@ -62,8 +66,6 @@ train_board = TrainBoard(refresh_trains)
 if OFF_HOURS_ENABLED:
     ON_HOUR, ON_MINUTE = map(int, config['display_on_time'].split(":"))
     OFF_HOUR, OFF_MINUTE = map(int, config['display_off_time'].split(":"))
-
-api = MetroApi()
 
 while True:
     train_board.refresh()
